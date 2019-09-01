@@ -21,7 +21,7 @@ export class BotService implements OnModuleInit {
     this.client.on('ready', () => this.ready());
     this.client.on('message', msg => {});
 
-    this.client.login('NjE3NjA4OTE3OTcwODQ1Njk2.XWtwwg.keBeEmohJ3GdLNuxS7BZjhGNgeI');
+    this.client.login('NjE3NjA4OTE3OTcwODQ1Njk2.XWwE_Q.iFVBJW0QoKm_NAuc5UYz_098xQw');
   }
 
   private ready() {
