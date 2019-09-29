@@ -13,9 +13,9 @@ export class AppController {
   }
 
   @Get('group-member')
-  public checkGroupMember(@Query('groupId') groupId: string, @Query('userId') userId: string) {
+  public async checkGroupMember(@Query('groupId') groupId: string, @Query('userId') userId: string) {
     if (!groupId || !userId) { return; }
-    this.botService.checkGroupMember(groupId, userId);
+    return { success: await this.botService.checkGroupMember(groupId, userId) };
   }
 
   @Post('send-users')
