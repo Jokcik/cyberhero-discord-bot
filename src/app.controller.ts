@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Post} from '@nestjs/common';
+import {Body, Controller, Get, Post, Query} from '@nestjs/common';
 import {BotService} from "./bot/bot.service";
 
 @Controller()
@@ -10,6 +10,12 @@ export class AppController {
   public sendToChannels(@Body('message') message: string) {
     if (!message) { return; }
     this.botService.sendMessageToChannels(message);
+  }
+
+  @Get('group-member')
+  public checkGroupMember(@Query('groupId') groupId: string, @Query('userId') userId: string) {
+    if (!groupId || !userId) { return; }
+    this.botService.checkGroupMember(groupId, userId);
   }
 
   @Post('send-users')

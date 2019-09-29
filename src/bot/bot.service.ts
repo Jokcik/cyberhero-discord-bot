@@ -13,7 +13,6 @@ export class BotService implements OnModuleInit {
   public allowNameChannels: string[] = [ 'объявления' ];
 
   constructor(private utilsService: UtilsService) {
-
   }
 
   onModuleInit(): any {
@@ -44,10 +43,10 @@ export class BotService implements OnModuleInit {
     // this.createCup('CYBERHERO HEARTHSTONE 1X1 PREMIUM CUP #19', 'https://cyberhero.tele2.ru/cups/cyberhero-hearthstone-1x1-premium-cup-19', "2019-09-01T13:20:49.531Z", 5000);
   }
 
-  public getChannels() {
+  public getChannels(all: boolean = false) {
     const channels = [];
     this.client.channels.forEach(channel => {
-      if (channel.sendMessage && this.allowNameChannels.includes(channel.name)) {
+      if (channel.sendMessage && (all || this.allowNameChannels.includes(channel.name))) {
         channels.push(channel);
       }
     });
@@ -73,5 +72,13 @@ export class BotService implements OnModuleInit {
     for (let id of ids) {
       await userObj[id].sendMessage(message).catch((e) => console.log(e));
     }
+  }
+
+  public checkGroupMember(groupId: string, userId: string) {
+    const channel = this.getChannels(true).find(channel => channel.id === groupId);
+    if (!channel) { return false; }
+
+    const user = channel.guild.presences.get(userId);
+    return !!user;
   }
 }
