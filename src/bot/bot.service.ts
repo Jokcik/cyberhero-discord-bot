@@ -74,18 +74,16 @@ export class BotService implements OnModuleInit {
     }
   }
 
-  public checkGroupMember(groupId: string, userId: string) {
+  public async checkGroupMember(groupId: string, userId: string) {
     const channel = this.getChannels(true).find(channel => channel.id === groupId);
     if (!channel) { return false; }
 
     let memberUser = false;
-    channel.guild.fetchMembers().then(g => {
-      g.members.forEach((member) => {
-        if (member.id === userId) {
-          memberUser = true;
-        }
-
-      });
+    let g = await channel.guild.fetchMembers();
+    g.members.forEach((member) => {
+      if (member.id === userId) {
+        memberUser = true;
+      }
     });
 
     return memberUser;
