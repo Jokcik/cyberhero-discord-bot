@@ -78,7 +78,16 @@ export class BotService implements OnModuleInit {
     const channel = this.getChannels(true).find(channel => channel.id === groupId);
     if (!channel) { return false; }
 
-    const user = channel.guild.presences.get(userId);
-    return !!user;
+    let memberUser = false;
+    channel.guild.fetchMembers().then(g => {
+      g.members.forEach((member) => {
+        if (member.id === userId) {
+          memberUser = true;
+        }
+
+      });
+    });
+
+    return memberUser;
   }
 }
